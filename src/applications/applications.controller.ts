@@ -20,6 +20,13 @@ export class ApplicationsController {
     return this.applicationsService.create(createApplicationDto);
   }
 
+  @Get(':id')
+  findById(@Param('id') id: string) {
+    return this.applicationsService.findById(id);
+  }
+
+  ///////unused endpoints for now, but may be useful later////////
+
   @Get()
   findAll() {
     return this.applicationsService.findAll();
@@ -53,11 +60,6 @@ export class ApplicationsController {
   @Get('goal/:goalId/active')
   findActiveApplications(@Param('goalId') goalId: string) {
     return this.applicationsService.findActiveApplications(goalId);
-  }
-
-  @Get(':id')
-  findById(@Param('id') id: string) {
-    return this.applicationsService.findById(id);
   }
 
   @Patch(':id')

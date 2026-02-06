@@ -31,54 +31,24 @@ export class UsersService {
     );
 
     // Generate initials if not provided
-    const initials = createUserDto.initials || this.generateInitials(createUserDto.fullName);
+    const initials =
+      createUserDto.initials || this.generateInitials(createUserDto.fullName);
 
     const userData = {
       ...createUserDto,
       passwordHash: hashedPassword,
       initials,
-    //   password: createUserDto.password, // Remove plaintext password
+      //   password: createUserDto.password, // Remove plaintext password
     };
 
     const createdUser = new this.userModel(userData);
     return createdUser.save();
   }
 
-  async findAll() {
-    return this.userModel.find().select('-passwordHash').exec();
-  }
-
-  async findByEmail(email: string) {
-    return this.userModel.findOne({ email: email.toLowerCase() }).select('-passwordHash').exec();
-  }
-
-  async findById(id: string) {
-    return this.userModel.findById(id).select('-passwordHash').exec();
-  }
-
-  async update(id: string, updateUserDto: UpdateUserDto) {
-    const updateData: any = { ...updateUserDto };
-
-    // Hash password if provided
-    if (updateUserDto.password) {
-      updateData.passwordHash = await this.passwordService.hashPassword(
-        updateUserDto.password,
-      );
-      delete updateData.password;
-    }
-
-    return this.userModel
-      .findByIdAndUpdate(id, updateData, { new: true })
-      .select('-passwordHash')
-      .exec();
-  }
-
-  async delete(id: string) {
-    return this.userModel.findByIdAndDelete(id).exec();
-  }
-
   async validateCredentials(email: string, password: string) {
-    const user = await this.userModel.findOne({ email: email.toLowerCase() }).exec();
+    const user = await this.userModel
+      .findOne({ email: email.toLowerCase() })
+      .exec();
 
     if (!user) {
       return null;

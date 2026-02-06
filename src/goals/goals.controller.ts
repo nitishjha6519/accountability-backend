@@ -21,11 +21,17 @@ export class GoalsController {
     return this.goalsService.create(createGoalDto);
   }
 
-  @Get()
+  @Get(':id')
+  findById(@Param('id') id: string) {
+    return this.goalsService.findById(id);
+  }
+
+  @Get('all')
   findAll() {
     return this.goalsService.findAll();
   }
 
+  ////////////////unused endpoints for now, but may be useful later////////////////
   @Get('client/:clientId')
   findByClientId(@Param('clientId') clientId: string) {
     return this.goalsService.findByClientId(clientId);
@@ -45,11 +51,6 @@ export class GoalsController {
   findByTags(@Query('tags') tags: string | string[]) {
     const tagArray = Array.isArray(tags) ? tags : [tags];
     return this.goalsService.findByTags(tagArray);
-  }
-
-  @Get(':id')
-  findById(@Param('id') id: string) {
-    return this.goalsService.findById(id);
   }
 
   @Patch(':id')

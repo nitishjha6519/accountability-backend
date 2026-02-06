@@ -21,14 +21,16 @@ export class FeedbackController {
     return this.feedbackService.create(createFeedbackDto);
   }
 
-  @Get()
-  findAll() {
-    return this.feedbackService.findAll();
-  }
-
   @Get('application/:applicationId')
   findByApplicationId(@Param('applicationId') applicationId: string) {
     return this.feedbackService.findByApplicationId(applicationId);
+  }
+
+  ////////////unused endpoints for now, but may be useful later////////////////
+
+  @Get()
+  findAll() {
+    return this.feedbackService.findAll();
   }
 
   @Get('provided-by/:providedBy')
