@@ -1,0 +1,23 @@
+{
+  "Create Goal": {
+    "title": "Complete a 30-day fitness challenge",
+    "description": "Run 5km every day for 30 days to build endurance",
+    "motivation": "Want to improve cardiovascular health and establish a running habit",
+    "category": "fitness",
+    "tags": ["running", "health", "exercise"],
+    "startDate": "2026-02-07T00:00:00Z",
+    "endDate": "2026-03-09T00:00:00Z",
+    "dailyEffort": "45 mins",
+    "checkInFrequency": "daily",
+    "hasPledge": true,
+    "pledgeAmount": 300,
+    "rewardAmount": 50,
+    "rewardPeriod": "per week",
+    "status": "posted"
+  },
+  "Update Goal": {
+    "status": "matched",
+    "rewardAmount": 75,
+    "dailyEffort": "1 hour"
+  }
+}

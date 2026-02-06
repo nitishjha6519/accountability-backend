@@ -1,0 +1,168 @@
+{
+  "info": {
+    "name": "Goals API",
+    "description": "API collection for Goals management",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Goal",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Complete a 30-day fitness challenge\",\n  \"description\": \"Run 5km every day for 30 days to build endurance\",\n  \"motivation\": \"Want to improve cardiovascular health and establish a running habit\",\n  \"category\": \"fitness\",\n  \"tags\": [\"running\", \"health\", \"exercise\"],\n  \"startDate\": \"2026-02-07T00:00:00Z\",\n  \"endDate\": \"2026-03-09T00:00:00Z\",\n  \"dailyEffort\": \"45 mins\",\n  \"checkInFrequency\": \"daily\",\n  \"hasPledge\": true,\n  \"pledgeAmount\": 300,\n  \"rewardAmount\": 50,\n  \"rewardPeriod\": \"per week\",\n  \"status\": \"posted\"\n}\n"
+        },
+        "url": {
+          "raw": "http://localhost:3000/goals",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["goals"]
+        }
+      }
+    },
+    {
+      "name": "Get All Goals",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:3000/goals",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["goals"]
+        }
+      }
+    },
+    {
+      "name": "Get Goals by Client ID",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:3000/goals/client/{{clientId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["goals", "client", "{{clientId}}"]
+        }
+      }
+    },
+    {
+      "name": "Get Goals by Status",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:3000/goals/status/posted",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["goals", "status", "posted"]
+        }
+      }
+    },
+    {
+      "name": "Get Goals by Category",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:3000/goals/category/fitness",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["goals", "category", "fitness"]
+        }
+      }
+    },
+    {
+      "name": "Search Goals by Tags",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:3000/goals/search?tags=running&tags=health",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["goals", "search"],
+          "query": [
+            {
+              "key": "tags",
+              "value": "running"
+            },
+            {
+              "key": "tags",
+              "value": "health"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get Goal by ID",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:3000/goals/{{goalId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["goals", "{{goalId}}"]
+        }
+      }
+    },
+    {
+      "name": "Update Goal",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"matched\",\n  \"rewardAmount\": 75,\n  \"dailyEffort\": \"1 hour\"\n}\n"
+        },
+        "url": {
+          "raw": "http://localhost:3000/goals/{{goalId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["goals", "{{goalId}}"]
+        }
+      }
+    },
+    {
+      "name": "Delete Goal",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "http://localhost:3000/goals/{{goalId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["goals", "{{goalId}}"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "clientId",
+      "value": "65a8f4c2b1234567890abcde",
+      "type": "string"
+    },
+    {
+      "key": "goalId",
+      "value": "65a8f4c2b1234567890abcdf",
+      "type": "string"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "Create Feedback": {
+    "applicationId": "65a8f4c2b1234567890abcdf",
+    "providedBy": "65a8f4c2b1234567890abc00",
+    "receivedBy": "65a8f4c2b1234567890abcde",
+    "sessionDate": "2026-02-06",
+    "clientPresent": true,
+    "assistantPresent": true,
+    "stars": 5,
+    "comment": "Great session! The assistant provided excellent guidance and kept me motivated throughout the workout."
+  },
+  "Create Feedback (4 Stars)": {
+    "applicationId": "65a8f4c2b1234567890abcdf",
+    "providedBy": "65a8f4c2b1234567890abc00",
+    "receivedBy": "65a8f4c2b1234567890abcde",
+    "sessionDate": "2026-02-05",
+    "clientPresent": true,
+    "assistantPresent": true,
+    "stars": 4,
+    "comment": "Good session, but could have been more engaging with the explanation."
+  },
+  "Create Feedback (3 Stars)": {
+    "applicationId": "65a8f4c2b1234567890abcdf",
+    "providedBy": "65a8f4c2b1234567890abc00",
+    "receivedBy": "65a8f4c2b1234567890abcde",
+    "sessionDate": "2026-02-04",
+    "clientPresent": true,
+    "assistantPresent": false,
+    "stars": 3,
+    "comment": "Client attended but assistant didn't show up on time."
+  },
+  "Update Feedback": {
+    "stars": 4,
+    "comment": "Updated feedback - session was good overall."
+  }
+}
