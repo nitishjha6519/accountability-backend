@@ -7,23 +7,21 @@ import {
   Param,
   Delete,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { GoalsService } from './goals.service';
 import { CreateGoalDto } from './dto/create-goal.dto';
 import { UpdateGoalDto } from './dto/update-goal.dto';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @Controller('goals')
 export class GoalsController {
   constructor(private readonly goalsService: GoalsService) {}
 
+  //@UseGuards(JwtAuthGuard)
   @Post('create')
   create(@Body() createGoalDto: CreateGoalDto) {
     return this.goalsService.create(createGoalDto);
-  }
-
-  @Get(':id')
-  findById(@Param('id') id: string) {
-    return this.goalsService.findById(id);
   }
 
   @Get('all')
@@ -31,12 +29,17 @@ export class GoalsController {
     return this.goalsService.findAll();
   }
 
-  ////////////////unused endpoints for now, but may be useful later////////////////
+  @Get(':id')
+  findById(@Param('id') id: string) {
+    return this.goalsService.findById(id);
+  }
+
   @Get('client/:clientId')
   findByClientId(@Param('clientId') clientId: string) {
     return this.goalsService.findByClientId(clientId);
   }
 
+  ////unused///////////////
   @Get('status/:status')
   findByStatus(@Param('status') status: string) {
     return this.goalsService.findByStatus(status);

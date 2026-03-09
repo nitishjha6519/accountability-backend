@@ -16,9 +16,20 @@ import { UpdateFeedbackDto } from './dto/update-feedback.dto';
 export class FeedbackController {
   constructor(private readonly feedbackService: FeedbackService) {}
 
-  @Post()
-  create(@Body() createFeedbackDto: CreateFeedbackDto) {
-    return this.feedbackService.create(createFeedbackDto);
+  @Post('client')
+  createByClient(@Body() createFeedbackDto: CreateFeedbackDto) {
+    return this.feedbackService.create({
+      ...createFeedbackDto,
+      role: 'client',
+    });
+  }
+
+  @Post('assistant')
+  createByAssistant(@Body() createFeedbackDto: CreateFeedbackDto) {
+    return this.feedbackService.create({
+      ...createFeedbackDto,
+      role: 'assistant',
+    });
   }
 
   @Get('application/:applicationId')

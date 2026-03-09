@@ -44,6 +44,10 @@ export class Feedback {
   @Prop()
   comment?: string; // optional, text feedback/notes
 
+  // Who submitted the feedback
+  @Prop({ enum: ['client', 'assistant'], default: 'client' })
+  role: string; // 'client' or 'assistant'
+
   @Prop({ default: () => new Date(), index: true })
   createdAt: Date;
 

@@ -31,6 +31,8 @@ export class ApplicationsService {
   async findByAssistantId(assistantId: string) {
     return this.applicationModel
       .find({ assistantId })
+      .populate('goalId')
+      .populate({ path: 'clientId', model: 'User' })
       .sort({ createdAt: -1 })
       .exec();
   }
@@ -38,12 +40,19 @@ export class ApplicationsService {
   async findByClientId(clientId: string) {
     return this.applicationModel
       .find({ clientId })
+      .populate({ path: 'clientId', model: 'User' })
+      .populate('goalId')
       .sort({ createdAt: -1 })
       .exec();
   }
 
   async findById(id: string) {
-    return this.applicationModel.findById(id).exec();
+    return this.applicationModel
+      .findById(id)
+      .populate({ path: 'clientId', model: 'User' })
+      .populate({ path: 'assistantId', model: 'User' })
+      .populate('goalId')
+      .exec();
   }
 
   async findByStatus(status: string) {

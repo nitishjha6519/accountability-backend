@@ -7,6 +7,7 @@ import { UsersModule } from './users/users.module';
 import { GoalsModule } from './goals/goals.module';
 import { ApplicationsModule } from './applications/applications.module';
 import { FeedbackModule } from './feedback/feedback.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { FeedbackModule } from './feedback/feedback.module';
     GoalsModule,
     ApplicationsModule,
     FeedbackModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

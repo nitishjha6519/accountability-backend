@@ -34,4 +34,8 @@ export class CreateFeedbackDto {
   @IsOptional()
   @IsString()
   comment?: string;
+
+  @IsOptional()
+  @IsString()
+  role?: string; // 'client' or 'assistant'
 }

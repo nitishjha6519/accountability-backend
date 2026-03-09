@@ -21,7 +21,7 @@ export class FeedbackService {
     private applicationModel: Model<ApplicationDocument>,
   ) {}
 
-  async create(createFeedbackDto: CreateFeedbackDto) {
+  async create(createFeedbackDto: CreateFeedbackDto & { role?: string }) {
     // Check if application exists and is accepted
     const application = await this.applicationModel.findById(
       createFeedbackDto.applicationId,
@@ -36,6 +36,11 @@ export class FeedbackService {
         'Can only submit feedback for accepted applications',
       );
     }
+
+    const role = createFeedbackDto.role || 'client';
+    console.log(
+      `[Feedback] ${role} submitting feedback | Application: ${createFeedbackDto.applicationId} | ProvidedBy: ${createFeedbackDto.providedBy}`,
+    );
 
     const createdFeedback = new this.feedbackModel(createFeedbackDto);
     return createdFeedback.save();

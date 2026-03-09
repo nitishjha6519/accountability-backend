@@ -25,6 +25,24 @@ export class ApplicationsController {
     return this.applicationsService.findById(id);
   }
 
+  @Get('assistant/:assistantId')
+  findByAssistantId(@Param('assistantId') assistantId: string) {
+    return this.applicationsService.findByAssistantId(assistantId);
+  }
+
+  @Get('client/:clientId')
+  findByClientId(@Param('clientId') clientId: string) {
+    return this.applicationsService.findByClientId(clientId);
+  }
+
+  @Patch(':id')
+  update(
+    @Param('id') id: string,
+    @Body() updateApplicationDto: UpdateApplicationDto,
+  ) {
+    return this.applicationsService.update(id, updateApplicationDto);
+  }
+
   ///////unused endpoints for now, but may be useful later////////
 
   @Get()
@@ -35,16 +53,6 @@ export class ApplicationsController {
   @Get('goal/:goalId')
   findByGoalId(@Param('goalId') goalId: string) {
     return this.applicationsService.findByGoalId(goalId);
-  }
-
-  @Get('assistant/:assistantId')
-  findByAssistantId(@Param('assistantId') assistantId: string) {
-    return this.applicationsService.findByAssistantId(assistantId);
-  }
-
-  @Get('client/:clientId')
-  findByClientId(@Param('clientId') clientId: string) {
-    return this.applicationsService.findByClientId(clientId);
   }
 
   @Get('status/:status')
@@ -60,14 +68,6 @@ export class ApplicationsController {
   @Get('goal/:goalId/active')
   findActiveApplications(@Param('goalId') goalId: string) {
     return this.applicationsService.findActiveApplications(goalId);
-  }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateApplicationDto: UpdateApplicationDto,
-  ) {
-    return this.applicationsService.update(id, updateApplicationDto);
   }
 
   @Delete(':id')
