@@ -82,7 +82,9 @@ export class UsersService {
     await this.userModel.findByIdAndUpdate(userId, {
       $inc: { rewardPoints: -amount },
     });
-    console.log(`[Points] Deducted ${amount} points from user ${userId}. New balance: ${user.rewardPoints - amount}`);
+    console.log(
+      `[Points] Deducted ${amount} points from user ${userId}. New balance: ${user.rewardPoints - amount}`,
+    );
     return true;
   }
 
