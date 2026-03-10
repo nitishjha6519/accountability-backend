@@ -1,16 +1,41 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Goal, GoalDocument } from './schemas/goal.schema';
 import { CreateGoalDto } from './dto/create-goal.dto';
 import { UpdateGoalDto } from './dto/update-goal.dto';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class GoalsService {
-  constructor(@InjectModel(Goal.name) private goalModel: Model<GoalDocument>) {}
+  constructor(
+    @InjectModel(Goal.name) private goalModel: Model<GoalDocument>,
+    private usersService: UsersService,
+  ) {}
 
   async create(createGoalDto: CreateGoalDto) {
-    const createdGoal = new this.goalModel(createGoalDto);
+    // Default rewardAmount is 50 if not provided
+    const rewardAmount = createGoalDto.rewardAmount || 50;
+
+    // Deduct points from client
+    const deducted = await this.usersService.deductPoints(
+      createGoalDto.clientId,
+      rewardAmount,
+    );
+
+    if (!deducted) {
+      throw new BadRequestException(
+        `Insufficient points. Need ${rewardAmount} points to post this goal.`,
+      );
+    }
+
+    const goalData = {
+      ...createGoalDto,
+      rewardAmount,
+    };
+
+    const createdGoal = new this.goalModel(goalData);
+    console.log(`[Goal] Created goal. Deducted ${rewardAmount} points from client ${createGoalDto.clientId}`);
     return createdGoal.save();
   }
 

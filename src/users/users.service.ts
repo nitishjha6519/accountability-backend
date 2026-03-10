@@ -38,7 +38,7 @@ export class UsersService {
       ...createUserDto,
       passwordHash: hashedPassword,
       initials,
-      //   password: createUserDto.password, // Remove plaintext password
+      rewardPoints: 200, // Give 200 points on signup
     };
 
     const createdUser = new this.userModel(userData);
@@ -72,5 +72,29 @@ export class UsersService {
       .map((word) => word.charAt(0).toUpperCase())
       .join('')
       .slice(0, 2);
+  }
+
+  async deductPoints(userId: string, amount: number): Promise<boolean> {
+    const user = await this.userModel.findById(userId).exec();
+    if (!user || user.rewardPoints < amount) {
+      return false;
+    }
+    await this.userModel.findByIdAndUpdate(userId, {
+      $inc: { rewardPoints: -amount },
+    });
+    console.log(`[Points] Deducted ${amount} points from user ${userId}. New balance: ${user.rewardPoints - amount}`);
+    return true;
+  }
+
+  async addPoints(userId: string, amount: number): Promise<void> {
+    await this.userModel.findByIdAndUpdate(userId, {
+      $inc: { rewardPoints: amount },
+    });
+    console.log(`[Points] Added ${amount} points to user ${userId}`);
+  }
+
+  async getPoints(userId: string): Promise<number> {
+    const user = await this.userModel.findById(userId).exec();
+    return user?.rewardPoints || 0;
   }
 }

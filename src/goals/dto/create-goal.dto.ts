@@ -10,6 +10,9 @@ import { Type } from 'class-transformer';
 
 export class CreateGoalDto {
   @IsString()
+  clientId: string; // User ID of the client posting the goal
+
+  @IsString()
   title: string;
 
   @IsOptional()

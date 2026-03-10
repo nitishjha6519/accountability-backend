@@ -42,6 +42,23 @@ export class FeedbackService {
       `[Feedback] ${role} submitting feedback | Application: ${createFeedbackDto.applicationId} | ProvidedBy: ${createFeedbackDto.providedBy}`,
     );
 
+    // Check for existing feedback with same applicationId, sessionDate, and role
+    const existingFeedback = await this.feedbackModel.findOne({
+      applicationId: createFeedbackDto.applicationId,
+      sessionDate: createFeedbackDto.sessionDate,
+      role: role,
+    });
+
+    if (existingFeedback) {
+      // Update existing feedback instead of creating duplicate
+      console.log(`[Feedback] Updating existing feedback for ${role} on ${createFeedbackDto.sessionDate}`);
+      return this.feedbackModel.findByIdAndUpdate(
+        existingFeedback._id,
+        createFeedbackDto,
+        { new: true },
+      ).exec();
+    }
+
     const createdFeedback = new this.feedbackModel(createFeedbackDto);
     return createdFeedback.save();
   }

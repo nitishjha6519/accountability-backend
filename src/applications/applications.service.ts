@@ -4,12 +4,17 @@ import { Model } from 'mongoose';
 import { Application, ApplicationDocument } from './schemas/application.schema';
 import { CreateApplicationDto } from './dto/create-application.dto';
 import { UpdateApplicationDto } from './dto/update-application.dto';
+import { UsersService } from '../users/users.service';
+import { Goal, GoalDocument } from '../goals/schemas/goal.schema';
 
 @Injectable()
 export class ApplicationsService {
   constructor(
     @InjectModel(Application.name)
     private applicationModel: Model<ApplicationDocument>,
+    @InjectModel(Goal.name)
+    private goalModel: Model<GoalDocument>,
+    private usersService: UsersService,
   ) {}
 
   async create(createApplicationDto: CreateApplicationDto) {
@@ -91,9 +96,24 @@ export class ApplicationsService {
       updateData.startedAt = new Date();
     }
 
-    // Set completedAt when trial is completed
+    // Set completedAt when trial is completed and transfer points to assistant
     if (updateApplicationDto.trialStatus === 'completed') {
       updateData.completedAt = new Date();
+
+      // Get the application to find assistantId and goalId
+      const application = await this.applicationModel.findById(id).exec();
+      if (application) {
+        // Get the goal to find rewardAmount
+        const goal = await this.goalModel.findById(application.goalId).exec();
+        if (goal && goal.rewardAmount) {
+          // Transfer points to assistant
+          await this.usersService.addPoints(
+            application.assistantId.toString(),
+            goal.rewardAmount,
+          );
+          console.log(`[Points] Transferred ${goal.rewardAmount} points to assistant ${application.assistantId} for completing goal ${goal._id}`);
+        }
+      }
     }
 
     return this.applicationModel

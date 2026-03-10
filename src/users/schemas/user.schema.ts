@@ -40,6 +40,9 @@ export class User {
   @Prop({ default: false })
   verified: boolean;
 
+  @Prop({ default: 200 })
+  rewardPoints: number; // Points balance - starts with 200 on signup
+
   @Prop()
   createdAt: Date;
 
