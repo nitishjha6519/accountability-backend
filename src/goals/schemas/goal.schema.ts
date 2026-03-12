@@ -18,7 +18,7 @@ export class Goal {
   @Prop()
   motivation: string;
 
-  @Prop({ required: true, enum: ['fitness', 'speaking', 'interview'] })
+  @Prop({ required: true, enum: ['Fitness', 'Speaking', 'Interview'] })
   category: string; // e.g., "fitness", "career", "wellness"
 
   @Prop({ type: [String], index: true })

@@ -23,10 +23,10 @@ export class User {
   @IsNotEmpty()
   passwordHash: string;
 
-  @Prop({ 
-    required: true, 
+  @Prop({
+    required: true,
     enum: UserRole,
-    default: UserRole.CLIENT 
+    default: UserRole.CLIENT,
   })
   @IsEnum(UserRole)
   role: UserRole;
@@ -36,6 +36,9 @@ export class User {
 
   @Prop()
   initials: string;
+
+  @Prop({ required: false })
+  about?: string; // User profile about section
 
   @Prop({ default: false })
   verified: boolean;

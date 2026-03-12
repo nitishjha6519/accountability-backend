@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ApplicationsService } from './applications.service';
 import { ApplicationsController } from './applications.controller';
@@ -12,7 +12,7 @@ import { Goal, GoalSchema } from '../goals/schemas/goal.schema';
       { name: Application.name, schema: ApplicationSchema },
       { name: Goal.name, schema: GoalSchema },
     ]),
-    UsersModule,
+    forwardRef(() => UsersModule),
   ],
   controllers: [ApplicationsController],
   providers: [ApplicationsService],

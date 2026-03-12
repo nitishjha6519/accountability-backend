@@ -7,6 +7,7 @@ import {
   Put,
   Delete,
   UnauthorizedException,
+  Patch,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from './users.service';
@@ -70,5 +71,24 @@ export class UsersController {
         initials: user.initials,
       },
     };
+  }
+
+  @Patch('about/:id')
+  async updateAbout(@Param('id') id: string, @Body('about') about: string) {
+    const updated = await this.usersService.update(id, { about });
+    if (!updated) {
+      return {
+        message: 'User not found',
+        about: null,
+      };
+    }
+    return {
+      message: 'About section updated',
+      about: updated.about,
+    };
+  }
+  @Get('profile/:id')
+  async getUserProfile(@Param('id') id: string) {
+    return this.usersService.getUserProfile(id);
   }
 }

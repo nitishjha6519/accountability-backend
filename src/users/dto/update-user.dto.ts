@@ -24,6 +24,10 @@ export class UpdateUserDto {
 
   @IsOptional()
   @IsString()
+  about?: string; // User profile about section
+
+  @IsOptional()
+  @IsString()
   initials?: string;
 
   @IsOptional()

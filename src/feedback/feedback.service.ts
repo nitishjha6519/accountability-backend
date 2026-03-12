@@ -51,12 +51,14 @@ export class FeedbackService {
 
     if (existingFeedback) {
       // Update existing feedback instead of creating duplicate
-      console.log(`[Feedback] Updating existing feedback for ${role} on ${createFeedbackDto.sessionDate}`);
-      return this.feedbackModel.findByIdAndUpdate(
-        existingFeedback._id,
-        createFeedbackDto,
-        { new: true },
-      ).exec();
+      console.log(
+        `[Feedback] Updating existing feedback for ${role} on ${createFeedbackDto.sessionDate}`,
+      );
+      return this.feedbackModel
+        .findByIdAndUpdate(existingFeedback._id, createFeedbackDto, {
+          new: true,
+        })
+        .exec();
     }
 
     const createdFeedback = new this.feedbackModel(createFeedbackDto);
@@ -84,6 +86,12 @@ export class FeedbackService {
   async findByReceivedBy(receivedBy: string) {
     return this.feedbackModel
       .find({ receivedBy })
+      .populate({
+        path: 'applicationId',
+        populate: { path: 'goalId' }
+      })
+      .populate('providedBy')
+      .populate('receivedBy')
       .sort({ createdAt: -1 })
       .exec();
   }

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Application, ApplicationDocument } from './schemas/application.schema';
@@ -14,7 +14,7 @@ export class ApplicationsService {
     private applicationModel: Model<ApplicationDocument>,
     @InjectModel(Goal.name)
     private goalModel: Model<GoalDocument>,
-    private usersService: UsersService,
+    @Inject(forwardRef(() => UsersService)) private usersService: UsersService,
   ) {}
 
   async create(createApplicationDto: CreateApplicationDto) {

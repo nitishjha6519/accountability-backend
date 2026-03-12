@@ -1,4 +1,9 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  Inject,
+  forwardRef,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Goal, GoalDocument } from './schemas/goal.schema';
@@ -10,7 +15,7 @@ import { UsersService } from '../users/users.service';
 export class GoalsService {
   constructor(
     @InjectModel(Goal.name) private goalModel: Model<GoalDocument>,
-    private usersService: UsersService,
+    @Inject(forwardRef(() => UsersService)) private usersService: UsersService,
   ) {}
 
   async create(createGoalDto: CreateGoalDto) {
@@ -35,7 +40,9 @@ export class GoalsService {
     };
 
     const createdGoal = new this.goalModel(goalData);
-    console.log(`[Goal] Created goal. Deducted ${rewardAmount} points from client ${createGoalDto.clientId}`);
+    console.log(
+      `[Goal] Created goal. Deducted ${rewardAmount} points from client ${createGoalDto.clientId}`,
+    );
     return createdGoal.save();
   }
 

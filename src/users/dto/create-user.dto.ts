@@ -1,4 +1,10 @@
-import { IsEmail, IsNotEmpty, IsEnum, IsOptional, IsString } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsEnum,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { UserRole } from '../schemas/user.schema';
 
 export class CreateUserDto {
@@ -21,6 +27,10 @@ export class CreateUserDto {
   @IsOptional()
   @IsString()
   avatarColor?: string;
+
+  @IsOptional()
+  @IsString()
+  about?: string; // User profile about section
 
   @IsOptional()
   @IsString()

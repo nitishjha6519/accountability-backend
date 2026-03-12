@@ -23,9 +23,8 @@ export class CreateGoalDto {
   @IsString()
   motivation?: string;
 
-  @IsOptional()
   @IsString()
-  category?: string;
+  category: 'Fitness' | 'Speaking' | 'Interview'; // required
 
   @IsOptional()
   @IsArray()

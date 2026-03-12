@@ -1,7 +1,15 @@
-import { Injectable, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  Inject,
+  forwardRef,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User, UserDocument } from './schemas/user.schema';
+import { GoalsService } from '../goals/goals.service';
+import { ApplicationsService } from '../applications/applications.service';
+import { FeedbackService } from '../feedback/feedback.service';
 import { PasswordService } from '../common/services/password.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -11,6 +19,9 @@ export class UsersService {
   constructor(
     @InjectModel(User.name) private userModel: Model<UserDocument>,
     private passwordService: PasswordService,
+    @Inject(forwardRef(() => GoalsService)) private goalsService: GoalsService,
+    private applicationsService: ApplicationsService,
+    private feedbackService: FeedbackService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -98,5 +109,46 @@ export class UsersService {
   async getPoints(userId: string): Promise<number> {
     const user = await this.userModel.findById(userId).exec();
     return user?.rewardPoints || 0;
+  }
+
+  async update(userId: string, update: Partial<UpdateUserDto>) {
+    const updatedUser = await this.userModel
+      .findByIdAndUpdate(userId, update, { new: true })
+      .exec();
+    return updatedUser;
+  }
+  async getUserProfile(id: string) {
+    // Fetch user details
+    const user = await this.userModel.findById(id).exec();
+    if (!user) {
+      return { message: 'User not found' };
+    }
+
+    // // Past goals
+    // let pastGoals: any[] = [];
+    // if (this.goalsService && this.goalsService.findByClientId) {
+    //   pastGoals = await this.goalsService.findByClientId(id);
+    // }
+
+    // // Accepted applications
+    // let acceptedApplications = [];
+    // if (this.applicationsService && this.applicationsService.findByAssistantId) {
+    //   acceptedApplications = await this.applicationsService
+    //     .findByAssistantId(id)
+    //     .then((apps: any[]) => apps.filter((app: any) => app.status === 'accepted'));
+    // }
+
+    // Reviews as assistant
+    let reviews: any[] = [];
+    if (this.feedbackService && this.feedbackService.findByReceivedBy) {
+      reviews = await this.feedbackService.findByReceivedBy(id);
+    }
+
+    return {
+      user,
+      // pastGoals,
+      // acceptedApplications,
+      reviews,
+    };
   }
 }
