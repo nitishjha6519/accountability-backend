@@ -50,10 +50,17 @@ export class Goal {
   @Prop()
   rewardPeriod: string; // e.g., "per session", "per week", "per month"
 
+  // Meeting
+  @Prop({ required: true })
+  meetingLink: string;
+
+  @Prop({ required: true })
+  meetingTime: string;
+
   // Status
   @Prop({
     required: true,
-    enum: ['draft', 'posted', 'matched', 'completed', 'paused'],
+    enum: ['draft', 'posted', 'approved', 'completed', 'applications-closed'],
     index: true,
   })
   status: string;

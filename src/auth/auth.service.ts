@@ -32,7 +32,10 @@ export class AuthService {
     };
 
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: this.jwtService.sign(payload, {
+        secret: process.env.JWT_SECRET || 'your-secret-key',
+        expiresIn: '7d',
+      }),
       user: {
         id: user._id,
         email: user.email,
@@ -44,7 +47,9 @@ export class AuthService {
 
   async validateToken(token: string) {
     try {
-      const payload = this.jwtService.verify(token);
+      const payload = this.jwtService.verify(token, {
+        secret: process.env.JWT_SECRET || 'your-secret-key',
+      });
       return payload;
     } catch (error) {
       return null;

@@ -29,8 +29,9 @@ export class GoalsController {
     return this.goalsService.findAll();
   }
 
-  @Get(':id')
+  @Get('goalsid/:id')
   findById(@Param('id') id: string) {
+    console.log('id', id);
     return this.goalsService.findById(id);
   }
 

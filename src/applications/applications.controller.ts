@@ -6,21 +6,27 @@ import {
   Patch,
   Param,
   Delete,
-  // UseGuards,
+  UseGuards,
 } from '@nestjs/common';
 import { ApplicationsService } from './applications.service';
 import { CreateApplicationDto } from './dto/create-application.dto';
 import { UpdateApplicationDto } from './dto/update-application.dto';
-// import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('applications')
-// @UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 export class ApplicationsController {
   constructor(private readonly applicationsService: ApplicationsService) {}
 
   @Post()
   create(@Body() createApplicationDto: CreateApplicationDto) {
     return this.applicationsService.create(createApplicationDto);
+  }
+
+  @Post('cron/run-trial-updates')
+  async runTrialUpdates() {
+    await this.applicationsService.handleTrialStatusUpdates();
+    return { message: 'Trial status update job executed successfully.' };
   }
 
   @Get(':id')
@@ -46,8 +52,6 @@ export class ApplicationsController {
     return this.applicationsService.update(id, updateApplicationDto);
   }
 
-  ///////unused endpoints for now, but may be useful later////////
-
   @Get()
   findAll() {
     return this.applicationsService.findAll();
@@ -57,6 +61,8 @@ export class ApplicationsController {
   findByGoalId(@Param('goalId') goalId: string) {
     return this.applicationsService.findByGoalId(goalId);
   }
+
+  ///////unused endpoints for now, but may be useful later////////
 
   @Get('status/:status')
   findByStatus(@Param('status') status: string) {

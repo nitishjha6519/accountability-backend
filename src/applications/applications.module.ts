@@ -5,6 +5,7 @@ import { ApplicationsController } from './applications.controller';
 import { Application, ApplicationSchema } from './schemas/application.schema';
 import { UsersModule } from '../users/users.module';
 import { Goal, GoalSchema } from '../goals/schemas/goal.schema';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { Goal, GoalSchema } from '../goals/schemas/goal.schema';
       { name: Goal.name, schema: GoalSchema },
     ]),
     forwardRef(() => UsersModule),
+    forwardRef(() => AuthModule),
   ],
   controllers: [ApplicationsController],
   providers: [ApplicationsService],

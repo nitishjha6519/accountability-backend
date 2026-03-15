@@ -63,6 +63,14 @@ export class CreateGoalDto {
   @IsString()
   rewardPeriod?: string;
 
+  @IsOptional()
   @IsString()
-  status: string; // "draft" | "posted" | "matched" | "completed" | "paused"
+  meetingLink?: string;
+
+  @IsOptional()
+  @IsString()
+  meetingTime?: string;
+
+  @IsString()
+  status: string; // "draft" | "posted" | "matched" | "completed" | "paused" | "applications-closed"
 }

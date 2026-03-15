@@ -29,7 +29,7 @@ export class Application {
 
   @Prop({
     required: true,
-    enum: ['pending-start', 'active', 'completed', 'cancelled', 'none'],
+    enum: ['none', 'active', 'completed', 'cancelled', 'applications-closed'],
     index: true,
   })
   trialStatus: string; // "pending-start", "active", "completed", "cancelled", "none"

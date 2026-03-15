@@ -47,7 +47,10 @@ export class GoalsService {
   }
 
   async findAll() {
-    return this.goalModel.find().exec();
+    return this.goalModel
+      .find({ status: { $ne: 'posted' } })
+      .populate({ path: 'clientId', model: 'User' })
+      .exec();
   }
 
   async findByClientId(clientId: string) {

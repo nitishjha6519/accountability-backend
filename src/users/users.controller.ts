@@ -34,7 +34,10 @@ export class UsersController {
 
     return {
       message: 'Signup successful',
-      access_token: this.jwtService.sign(payload),
+      access_token: this.jwtService.sign(payload, {
+        secret: process.env.JWT_SECRET || 'your-secret-key',
+        expiresIn: '7d',
+      }),
       user: {
         id: user._id,
         email: user.email,
@@ -63,7 +66,10 @@ export class UsersController {
 
     return {
       message: 'Sign in successful',
-      access_token: this.jwtService.sign(payload),
+      access_token: this.jwtService.sign(payload, {
+        secret: process.env.JWT_SECRET || 'your-secret-key',
+        expiresIn: '7d',
+      }),
       user: {
         id: user._id,
         email: user.email,
