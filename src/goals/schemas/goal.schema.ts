@@ -25,7 +25,7 @@ export class Goal {
   tags: string[];
 
   // Timeline
-  @Prop({ required: true, index: true })
+  @Prop({ required: true })
   startDate: Date;
 
   @Prop({ required: true })
@@ -65,11 +65,15 @@ export class Goal {
   })
   status: string;
 
-  @Prop({ default: () => new Date() })
-  createdAt: Date;
+  @Prop()
+  adminComment?: string;
 
-  @Prop({ default: () => new Date() })
-  updatedAt: Date;
+  @Prop({ type: Types.ObjectId, ref: 'User' })
+  reviewedBy?: Types.ObjectId;
+
+  @Prop()
+  reviewedAt?: Date;
+
 }
 
 export const GoalSchema = SchemaFactory.createForClass(Goal);

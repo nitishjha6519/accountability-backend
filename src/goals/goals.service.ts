@@ -3,6 +3,7 @@ import {
   BadRequestException,
   Inject,
   forwardRef,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -50,6 +51,52 @@ export class GoalsService {
     return this.goalModel
       .find({ status: { $ne: 'posted' } })
       .populate({ path: 'clientId', model: 'User' })
+      .exec();
+  }
+
+  async findPostedForAdminReview() {
+    return this.goalModel
+      .find({ status: 'posted' })
+      .populate({ path: 'clientId', model: 'User' })
+      .sort({ createdAt: -1 })
+      .exec();
+  }
+
+  async reviewGoal(
+    id: string,
+    adminId: string,
+    action: 'approved' | 'rejected',
+    comment?: string,
+  ) {
+    const goal = await this.goalModel.findById(id).exec();
+
+    if (!goal) {
+      throw new NotFoundException('Goal not found');
+    }
+
+    if (goal.status !== 'posted') {
+      throw new BadRequestException('Only posted goals can be reviewed');
+    }
+
+    const updateData: {
+      status: string;
+      reviewedBy: string;
+      reviewedAt: Date;
+      adminComment?: string;
+    } = {
+      status: action === 'approved' ? 'approved' : 'draft',
+      reviewedBy: adminId,
+      reviewedAt: new Date(),
+    };
+
+    if (comment) {
+      updateData.adminComment = comment;
+    }
+
+    return this.goalModel
+      .findByIdAndUpdate(id, updateData, { new: true })
+      .populate({ path: 'clientId', model: 'User' })
+      .populate({ path: 'reviewedBy', model: 'User' })
       .exec();
   }
 

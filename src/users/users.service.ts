@@ -20,7 +20,7 @@ export class UsersService {
     @InjectModel(User.name) private userModel: Model<UserDocument>,
     private passwordService: PasswordService,
     @Inject(forwardRef(() => GoalsService)) private goalsService: GoalsService,
-    private applicationsService: ApplicationsService,
+    @Inject(forwardRef(() => ApplicationsService)) private applicationsService: ApplicationsService,
     private feedbackService: FeedbackService,
   ) {}
 

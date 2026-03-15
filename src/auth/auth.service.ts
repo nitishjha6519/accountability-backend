@@ -29,6 +29,7 @@ export class AuthService {
       sub: user._id,
       email: user.email,
       fullName: user.fullName,
+      role: user.role,
     };
 
     return {
@@ -41,6 +42,7 @@ export class AuthService {
         email: user.email,
         fullName: user.fullName,
         initials: user.initials,
+        role: user.role,
       },
     };
   }

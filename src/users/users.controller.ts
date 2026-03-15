@@ -30,6 +30,7 @@ export class UsersController {
       sub: user._id,
       email: user.email,
       fullName: user.fullName,
+      role: user.role,
     };
 
     return {
@@ -43,6 +44,7 @@ export class UsersController {
         email: user.email,
         fullName: user.fullName,
         initials: user.initials,
+        role: user.role,
       },
     };
   }
@@ -62,6 +64,7 @@ export class UsersController {
       sub: user._id,
       email: user.email,
       fullName: user.fullName,
+      role: user.role,
     };
 
     return {
@@ -75,6 +78,7 @@ export class UsersController {
         email: user.email,
         fullName: user.fullName,
         initials: user.initials,
+        role: user.role,
       },
     };
   }

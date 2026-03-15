@@ -8,6 +8,7 @@ export enum UserRole {
   CLIENT = 'client',
   ASSISTANT = 'assistant',
   BOTH = 'both',
+  ADMIN = 'admin',
 }
 
 @Schema({ timestamps: true })
@@ -56,6 +57,5 @@ export class User {
 export const UserSchema = SchemaFactory.createForClass(User);
 
 // Create indexes
-UserSchema.index({ email: 1 }, { unique: true });
 UserSchema.index({ role: 1 });
 UserSchema.index({ createdAt: -1 });
